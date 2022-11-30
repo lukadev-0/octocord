@@ -1,0 +1,32 @@
+{
+  "name": "octocord",
+  "version": "0.0.1",
+  "description": "The next generation framework for building Discord bots.",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lukadev-0/octocord.git",
+    "directory": "packages/octocord"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "framework"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "devDependencies": {
+    "tsup": "^6.5.0"
+  }
+}

@@ -1,6 +1,6 @@
 module.exports = {
   extends: [
-    "mdx",
+    "plugin:mdx/recommended",
     "next",
     "turbo",
     "prettier",

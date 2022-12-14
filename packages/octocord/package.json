@@ -3,21 +3,36 @@
   "version": "0.0.1",
   "description": "The next generation framework for building Discord bots.",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "bin": "./dist/cli/index.js",
+  "module": "./dist/exports/lib.js",
+  "types": "./dist/exports/lib.d.ts",
+  "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": "./dist/exports/lib.js",
+      "types": "./dist/exports/lib.d.ts"
+    },
+    "./build": {
+      "import": "./dist/exports/build.js",
+      "types": "./dist/exports/build.d.ts"
+    },
+    "./discord": {
+      "import": "./dist/exports/discord.js",
+      "types": "./dist/exports/discord.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "build": [
+        "./dist/exports/build.d.ts"
+      ],
+      "discord": [
+        "./dist/exports/discord.d.ts"
+      ]
     }
   },
   "files": [
-    "dist/index.d.ts",
-    "dist/index.js",
-    "dist/index.js.map",
-    "dist/index.mjs",
-    "dist/index.mjs.map"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -30,10 +45,46 @@
     "framework"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch"
+    "build": "rimraf ./dist && tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint"
   },
   "devDependencies": {
-    "tsup": "^6.5.0"
+    "@types/node": "^18.11.9",
+    "@types/rimraf": "^3.0.2",
+    "discord.js": "^14.7.1",
+    "eslint-config-custom": "workspace:*",
+    "octocord-discord": "workspace:*",
+    "rimraf": "^3.0.2",
+    "tsconfig": "workspace:*",
+    "tsup": "^6.5.0",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "@discordjs/rest": "^1.4.0",
+    "@rollup/plugin-commonjs": "^23.0.3",
+    "@rollup/plugin-json": "^5.0.2",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^10.0.1",
+    "bundle-require": "^3.1.2",
+    "chalk": "^5.1.2",
+    "commander": "^9.4.1",
+    "discord-api-types": "^0.37.20",
+    "esbuild": "^0.15.1",
+    "ora": "^6.1.2",
+    "rollup": "^3.5.1"
+  },
+  "peerDependencies": {
+    "discord.js": "^14.7.1",
+    "tslib": "*",
+    "typescript": ">=3.7.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    },
+    "tslib": {
+      "optional": true
+    }
   }
 }

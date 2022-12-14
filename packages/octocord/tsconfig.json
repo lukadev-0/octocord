@@ -1,0 +1,19 @@
+{
+  "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "moduleResolution": "node",
+    "target": "ES2020",
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "paths": {
+      "@/lib": ["./src/lib/index.ts"],
+      "@/util": ["./src/util/index.ts"],
+      "@/cli": ["./src/cli/index.ts"],
+      "@/build": ["./src/build/index.ts"],
+      "@/discord": ["../octocord-discord/index.d.ts"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}

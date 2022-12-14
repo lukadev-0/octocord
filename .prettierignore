@@ -1,0 +1,4 @@
+.next/
+.octocord/
+dist/
+node_modules/

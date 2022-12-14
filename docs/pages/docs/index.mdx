@@ -1,9 +1,189 @@
-import { Callout } from "nextra-theme-docs";
+---
+description: Learn how to create a bot using Octocord.
+---
+
+import { Callout, Tabs, Tab } from "nextra-theme-docs";
 
 # Quickstart
 
-<Callout label="Hello">
+Octocord is a **simple, modern framework for creating Discord bots**.
 
-Octocord is currently in development!
+If you have an existing bot which is written using Discord.js, you can incrementally
+adopt Octocord.
+
+<Callout>
+
+This guide assumes you've already created a Discord bot in the Developer Portal.
 
 </Callout>
+
+To create a new bot, you can use the `create-octocord` CLI tool:
+
+```sh
+npx create-octocord@latest
+```
+
+This tool will automatically create all the files needed to get a simple bot
+up and running.
+
+## Manual Setup
+
+You can also setup a Discord bot manually.
+
+Create an empty directory which will contain all your bot's code.
+Within this directoy, run the following command:
+
+<Tabs items={['npm', 'pnpm', 'yarn']}>
+  <Tab>
+    ```sh
+    npm init
+    ```
+  </Tab>
+  <Tab>
+    ```sh
+    pnpm init
+    ```
+  </Tab>
+  <Tab>
+    ```sh
+    yarn init
+    ```
+  </Tab>
+</Tabs>
+
+This will create a `package.json` in your project.
+Now, we have to install `octocord` into your project.
+
+<Tabs items={['npm', 'pnpm', 'yarn']}>
+  <Tab>
+    ```sh
+    npm i octocord
+    ```
+  </Tab>
+  <Tab>
+    ```sh
+    pnpm i octocord
+    ```
+  </Tab>
+  <Tab>
+    ```sh
+    yarn add octocord
+    ```
+  </Tab>
+</Tabs>
+
+In your `package.json`, add the following scripts:
+
+```json
+"scripts": {
+  "dev": "octocord",
+  "start": "octocord start",
+  "build": "octocord build",
+  "push": "octocord push"
+},
+```
+
+Now, we need to configure Octocord. Create a file named `octocord.config.js`:
+
+<Tabs items={['JS', 'TS']}>
+  <Tab>
+    ```js
+    export const config = {
+      interaction: {
+        type: "gateway",
+        commands: true,
+      },
+      gateway: {
+        token: process.env.DISCORD_BOT_TOKEN,
+      },
+    };
+    ```
+  </Tab>
+  <Tab>
+    ```ts
+    import { OctocordConfig } from "octocord"
+
+    export const config: OctocordConfig = {
+      interaction: {
+        type: "gateway",
+        commands: true,
+      },
+      gateway: {
+        token: process.env.DISCORD_BOT_TOKEN,
+      },
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<Callout type="info">
+
+TypeScript is also supported for the config,
+[`bundle-require`](https://www.npmjs.com/package/bundle-require)
+is used under the hood to load the config.
+
+</Callout>
+
+We also need an `.env` file to store secrets such as the bot token.
+Octocord will automatically load this file, if present.
+
+```sh
+DISCORD_BOT_TOKEN="<YOUR TOKEN HERE>"
+```
+
+When deploying to production, environment variables should be configured in 
+your hosting provider's website or CLI.
+
+### Adding a command
+
+To create a command, we need to create a directoy named `src` with a directory
+named `commands` in it. This can be configured within your config.
+
+Each command is a separate directory within of your `commands` directory,
+the name of this directory would be the name of your command.
+
+Within this directory, there should be two files:
+
+- **`meta.js`**\
+  This file contains metadata such as the description, the options,
+  and localizations.
+
+- **`command.js`**\
+  This file contains the code which is ran when you run the command.
+
+Let's create a command named `hello`.
+First, create a directory named `hello` inside of the `commands` directory.
+Within this directory add a file named `meta.js`:
+
+<Tabs items={['JS', 'TS']}>
+  <Tab>
+    ```js
+    import { ApplicationCommandOptionType } from "octocord"
+
+    export const meta = {
+      description: "Say hello to anyone you like!",
+      options: {
+        name: {
+          type: ApplicationCommandOptionType.String,
+          description: "Who do you want to say hello to?",
+        },
+      },
+    };
+    ```
+  </Tab>
+  <Tab>
+    ```ts
+    import { ApplicationCommandOptionType, CommandMeta } from "octocord"
+
+    export const meta: CommandMeta = {
+      description: "Say hello to anyone you like!",
+      options: {
+        name: {
+          type: ApplicationCommandOptionType.String,
+          description: "Who do you want to say hello to?",
+        },
+      },
+    };
+    ```
+  </Tab>
+</Tabs>

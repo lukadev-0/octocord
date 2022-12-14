@@ -1,1 +1,1 @@
-C:/Users/Luka/projects/drafts/octocord/packages/octocord/README.md
+./packages/octocord/README.md

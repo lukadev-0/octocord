@@ -1,17 +1,17 @@
 import { safeReadDirWithFileTypes, findFileWithExtension } from "@/util";
 
 import { join, resolve } from "path";
-import { BuildContext } from "./context";
+import { BuildContext } from "@/build";
 
-export interface InputCommand {
+export interface CommandInput {
   path: string;
   name: string;
   commandFilePath: string;
   metaFilePath: string;
 }
 
-export interface InputCommandCallbacks {
-  addCommand: (command: InputCommand) => void;
+export interface CommandInputCallbacks {
+  addCommand: (command: CommandInput) => void;
 }
 
 async function getCommandFiles(context: BuildContext, path: string) {
@@ -26,9 +26,9 @@ async function getCommandFiles(context: BuildContext, path: string) {
   return undefined;
 }
 
-export async function inputCommands(
+export async function commandInput(
   context: BuildContext,
-  callbacks: InputCommandCallbacks,
+  callbacks: CommandInputCallbacks,
 ) {
   const commandsDir = context.config.interaction?.commands;
   if (!commandsDir) return;

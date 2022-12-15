@@ -3,12 +3,14 @@ import {
   workerData as rawWorkerData,
   parentPort,
 } from "worker_threads";
-import { BuildContext, BuildEvents, inputCommands } from "@/build";
+import { BuildContext, BuildEvents } from "@/build";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import { join } from "path";
 import { InputOption, OutputOptions, rollup, RollupOptions } from "rollup";
+
+import { commandInput } from "./inputs/commands";
 
 if (isMainThread) {
   throw new Error("`build-worker` should not be running in main thread.");
@@ -70,15 +72,20 @@ async function bundle(context: BuildContext, input: InputOption) {
   }
 }
 
-async function main() {
+async function collectInputs() {
   await Promise.all([
-    inputCommands(context, {
+    commandInput(context, {
       addCommand: (command) => {
         input[`commands/${command.name}/command`] = command.commandFilePath;
         input[`commands/${command.name}/meta`] = command.metaFilePath;
       },
     }),
   ]);
+}
+
+async function main() {
+  postEvent("onCollectingInputs");
+  await collectInputs();
 
   if (Object.entries(input).length === 0) {
     return postEvent("onNoInputs");
@@ -86,7 +93,7 @@ async function main() {
 
   postEvent("onBundleStart");
   const output = await bundle(context, input);
-  postEvent("onBuildFinish", output);
+  postEvent("onBundleFinish", output);
 }
 
 main().catch((err) => {

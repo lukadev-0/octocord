@@ -1,7 +1,12 @@
 import { buildProject } from "@/build";
-import chalk from "chalk";
-import ora from "ora";
 import { loadConfig } from "../loadConfig";
+import { error, info, success, warn } from "../log";
+import ora from "ora";
+import chalk from "chalk";
+
+const BUILD_TASKS = 2;
+const formatBuildTaskLog = (n: number, msg: string) =>
+  `${chalk.gray(`(${n}/${BUILD_TASKS})`)} ${msg}`;
 
 export default async function build(dir: string) {
   const { config } = await loadConfig(dir);
@@ -11,50 +16,50 @@ export default async function build(dir: string) {
     projectDir: dir,
   };
 
+  info("creating a production build");
+
   const spinner = ora({
-    text: "collecting inputs",
+    text: "starting build worker",
     color: "blue",
   });
 
   spinner.start();
 
-  const logInfo = (str: string) => {
-    spinner.clear();
-    console.log(`${chalk.blue("info")} - ${str}`);
-  };
-
-  const logWarn = (str: string) => {
-    spinner.clear();
-    console.log(`${chalk.yellow("warn")} - ${str}`);
-  };
-
   try {
-    const result = await buildProject(context, {
-      onBundleStart: () => {
-        spinner.text = "building bot";
+    await buildProject(context, {
+      onCollectingInputs: () => {
+        spinner.clear();
+        info("build worker started");
+        console.log("");
+
+        spinner.text = formatBuildTaskLog(1, "collecting files");
       },
 
-      onCommandAdded: (command) => {
-        logInfo(`building command ${chalk.blue(command)}`);
+      onBundleStart: () => {
+        spinner.clear();
+        info(formatBuildTaskLog(1, "collected files"));
+
+        spinner.text = formatBuildTaskLog(2, "bundling files");
       },
 
       onWarn: (message) => {
-        logWarn(message);
+        spinner.clear();
+        warn(message);
+      },
+
+      onNoInputs: () => {
+        spinner.stop();
+        error("nothing to build");
+
+        process.exit(1);
       },
     });
 
     spinner.stop();
+    info(formatBuildTaskLog(2, "bundle complete"));
 
-    if (result) {
-      const { output: outputs } = result;
-      for (const output of outputs) {
-        logInfo(`written ${chalk.blue(output.fileName)}`);
-      }
-
-      console.log(`${chalk.green("success")} - build completed`);
-    } else {
-      console.log(`${chalk.yellow("warn")} - nothing to build`);
-    }
+    console.log("");
+    success("build complete");
   } catch (e) {
     spinner.stop();
 

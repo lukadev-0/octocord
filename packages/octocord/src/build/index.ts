@@ -1,4 +1,3 @@
-export * from "./inputCommands";
 export * from "./buildProject";
 export * from "./context";
-export * from "./events";
+export * from "../build-worker/events";

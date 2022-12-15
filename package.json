@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
+    "build": "turbo run build --filter=!test",
+    "dev": "turbo run dev --parallel --filter=!test",
+    "lint": "turbo run lint --filter=!test",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "publish-packages": "turbo run build lint && changeset version && changeset publish"
+    "publish-packages": "turbo run build lint --filter=!test && changeset version && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.25.2",

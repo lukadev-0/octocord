@@ -20,7 +20,7 @@ const config: DocsThemeConfig = {
       openGraph: {
         url: `https://octocord.vercel.app${asPath}`,
         siteName: "Octocord",
-        title: frontMatter.title ?? title,
+        title: frontMatter.ogTitle ?? frontMatter.title ?? defaultTitle,
       },
     };
   },

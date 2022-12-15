@@ -16,6 +16,7 @@ importers:
 
   docs:
     specifiers:
+      '@heroicons/react': ^2.0.13
       '@types/node': ^18.11.9
       '@types/react': ^18.0.25
       '@types/react-dom': ^18.0.9
@@ -31,6 +32,7 @@ importers:
       tsconfig: workspace:*
       typescript: ^4.5.3
     dependencies:
+      '@heroicons/react': 2.0.13_react@18.2.0
       next: 13.0.6_biqbaboplfbrettd7655fr4n2y
       nextra: 2.0.1_6jx7hpii6hgsrmhxgqrmo3277u
       nextra-theme-docs: 2.0.1_6jx7hpii6hgsrmhxgqrmo3277u
@@ -463,6 +465,14 @@ packages:
       client-only: 0.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@heroicons/react/2.0.13_react@18.2.0:
+    resolution: {integrity: sha512-iSN5XwmagrnirWlYEWNPdCDj9aRYVD/lnK3JlsC9/+fqGF80k8C7rl+1HCvBX0dBoagKqOFBs6fMhJJ1hOg1EQ==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.11.7:

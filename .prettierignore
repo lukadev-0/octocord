@@ -2,3 +2,5 @@
 .octocord/
 dist/
 node_modules/
+
+*.mdx

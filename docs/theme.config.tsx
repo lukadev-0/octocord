@@ -9,37 +9,25 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase: "https://github.com/lukadev-0/octocord/blob/main/docs",
   useNextSeoProps() {
-    const { asPath, route } = useRouter();
-    const { title, frontMatter } = useConfig();
+    const { asPath } = useRouter();
+    const { title: defaultTitle, frontMatter } = useConfig();
 
-    const openGraph = {
-      url: `https://octocord.vercel.app${asPath}`,
-      siteName: "Octocord",
-    };
-
-    if (route !== "/") {
-      return {
-        titleTemplate: "%s – Octocord",
-        description: frontMatter.description,
-        openGraph: {
-          ...openGraph,
-          title,
-        },
-      };
-    }
+    const title = frontMatter.title ?? `${defaultTitle} – Octocord`;
 
     return {
-      title: "Octocord",
-      description: "The next generation framework for building Discord bots.",
+      title: title,
+      description: frontMatter.description,
       openGraph: {
-        ...openGraph,
+        url: `https://octocord.vercel.app${asPath}`,
+        siteName: "Octocord",
+        title: frontMatter.title ?? title,
       },
     };
   },
   footer: {
     text: (
       <div>
-        <div className="mb-2 max-w-max relative rounded text-white flex items-center overflow-hidden space-x-px">
+        <div className="mb-2 relative rounded text-white inline-flex items-center overflow-hidden space-x-px">
           <div
             aria-hidden="true"
             className="h-10 w-10 flex items-center justify-center bg-black"

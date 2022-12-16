@@ -1,0 +1,35 @@
+---
+description: How to add commands to your bot.
+---
+
+import Image from "next/image"
+import SlashCommandImage from "../../../images/slash-command.png"
+
+# Commands
+
+Commands are actions that a user can run, most bots will have commands.
+
+There are multiple types of commands:
+
+  - Chat input commands or slash commands
+  - User commands
+  - Message mommands
+
+## Configuration
+
+In order to use commands, you need to configure it within your config.
+
+## Slash Commands
+
+Slash commands are the most common type of commands, commands such as `/ban` and `/warn` are
+slash commands. These are run by typing a single `/` followed by the command name.
+
+<Image src={SlashCommandImage} alt="slash commands" quality={100} />
+
+## User and message commands
+
+User and message commands appear when right clicking a user or message, respectively.
+These commands don't take any options. They're a great for quick actions that target
+users or messages.
+
+

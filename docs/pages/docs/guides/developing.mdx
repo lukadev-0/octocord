@@ -1,0 +1,71 @@
+---
+description: How to developer your bot using Octocord.
+---
+
+import { Callout, Tabs, Tab } from "nextra-theme-docs";
+
+# Developing
+
+With Octocord, developing your bot becomes really simple.
+
+## Dev Guild
+
+When developing, it is recommended to register all commands as a guild command and
+use global commands when deploying to production. This is because guild commands
+update instantly.
+
+You can configure the dev guild in your config, it is recommended to keep this value
+in your `.env` file.
+
+```js {3}
+export const config = {
+  // the id of your dev guild
+  devGuildId: process.env.DEV_GUILD_ID,
+};
+```
+
+## Starting Developing Mode
+
+Make sure your `package.json` has the following scripts defined:
+
+```json {2}
+"scripts": {
+  "dev": "octocord",
+  "start": "octocord start",
+  "build": "octocord build",
+  "deploy": "octocord deploy"
+},
+```
+
+You can run the following command to start developing mode:
+
+<Tabs items={['npm', 'pnpm', 'yarn']}>
+  <Tab>
+    ```sh
+    npm run dev
+    ```
+  </Tab>
+  <Tab>
+    ```sh
+    pnpm dev
+    ```
+  </Tab>
+  <Tab>
+    ```sh
+    yarn dev
+    ```
+  </Tab>
+</Tabs>
+
+Once started, your bot's code will be built and your commands will be registered in your
+dev guild, or globally if you did not specify a `devGuildId`.
+
+<Callout type="warning">
+  All your existing commands will be overwritten!
+</Callout>
+
+Now, if you make a change within your code, Octocord will automatically rebuild your 
+bot and restart it.
+
+If you make a change within a command's `meta.js` file, Octocord will automatically
+update the registered command for you.

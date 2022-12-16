@@ -79,12 +79,12 @@ Now, we have to install `octocord` into your project.
 
 In your `package.json`, add the following scripts:
 
-```json
+```json filename="package.json"
 "scripts": {
   "dev": "octocord",
   "start": "octocord start",
   "build": "octocord build",
-  "push": "octocord push"
+  "deploy": "octocord deploy"
 },
 ```
 
@@ -92,7 +92,7 @@ Now, we need to configure Octocord. Create a file named `octocord.config.js`:
 
 <Tabs items={['JS', 'TS']}>
   <Tab>
-    ```js
+    ```js filename="octocord.config.js"
     export const config = {
       interaction: {
         type: "gateway",
@@ -105,7 +105,7 @@ Now, we need to configure Octocord. Create a file named `octocord.config.js`:
     ```
   </Tab>
   <Tab>
-    ```ts
+    ```ts filename="octocord.config.ts"
     import { OctocordConfig } from "octocord"
 
     export const config: OctocordConfig = {
@@ -132,7 +132,7 @@ is used under the hood to load the config.
 We also need an `.env` file to store secrets such as the bot token.
 Octocord will automatically load this file, if present.
 
-```sh
+```sh filename=".env"
 DISCORD_BOT_TOKEN="<YOUR TOKEN HERE>"
 ```
 
@@ -162,7 +162,7 @@ Within this directory add a file named `meta.js`:
 
 <Tabs items={['JS', 'TS']}>
   <Tab>
-    ```js
+    ```js filename="commands/hello/meta.js"
     import { ApplicationCommandOptionType } from "octocord"
 
     export const meta = {
@@ -177,7 +177,7 @@ Within this directory add a file named `meta.js`:
     ```
   </Tab>
   <Tab>
-    ```ts
+    ```ts filename="commands/hello/meta.ts"
     import { ApplicationCommandOptionType, CommandMeta } from "octocord"
 
     export const meta: CommandMeta = {
